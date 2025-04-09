@@ -1,0 +1,13 @@
+{
+  "name": "alclojure",
+  "version": "0.1.0",
+  "description": "Alphabet Learning ecommerce platform",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./resources/css/input.css -o ./resources/public/css/output.css",
+    "watch:css": "npx tailwindcss -i ./resources/css/input.css -o ./resources/public/css/output.css --watch",
+    "dev": "npm run watch:css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}

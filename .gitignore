@@ -1,0 +1,28 @@
+# Clojure
+.cpcache/
+.nrepl-port
+target/
+
+# Editor files
+.vscode/
+.idea/
+*.iml
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Generated files
+resources/public/css/output.css
+
+# SQLite
+*.sqlite
+*.sqlite-*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

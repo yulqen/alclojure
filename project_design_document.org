@@ -1,0 +1,186 @@
+:PROPERTIES:
+:GPTEL_MODEL: o3-mini
+:GPTEL_BACKEND: ChatGPT
+:GPTEL_SYSTEM: You are a large language model living in Emacs and a helpful assistant. Respond concisely.
+:GPTEL_BOUNDS: ((response (717 779) (1383 2048) (2134 2384) (3033 3776) (4232 4838) (5203 5723) (6831 7944) (8072 11590)))
+:END:
+
+*** Project Requirement Document
+
+**** Overview
+This is an simple ecommerce web application that sells PDF worksheets, called Alphabet Learning. The customer will be able to purchase individual worksheets for very low prices (£1, £1.50, etc) by adding them to a shopping cart and paying (using Stripe, which we will get to later). It will be publicly available but the user will need to sign up for an account before buying anything and they will get X number of free downloads upon signing up. All the PDF resources are made by my wife by hand and she needs to upload them using a form on the site. I will talk about specifics later.
+
+Overview:
+The web application, Alphabet Learning, is a simple ecommerce platform focused on selling PDF worksheets for alphabet learning. Users will be able to browse and purchase individual worksheets at low prices (e.g., £1, £1.50, etc.) through a shopping cart mechanism. Although publicly accessible, purchasing requires users to sign up for an account, and new users will receive a set number of free downloads upon registration. The platform will integrate with Stripe for payments. Additionally, there is an administrative aspect where an uploader (the content creator’s wife) can submit freshly created PDF worksheets using a dedicated form within the site.
+
+**** Target audience
+Teachers, home-schoolers, carers, tutors and parents, mainly.
+
+Target Audience:
+The application is primarily designed for teachers, home-schoolers, carers, tutors, and parents. These users are looking for affordable, high-quality educational resources to support early learning in a structured, accessible format.
+
+**** User flow
+I will detail this in the App Flow document below, but this is the basis of it. A user can go to the site at alphabetlearning.online and browse resources which are categorised. They are shown a basic preview of the PDF (thumbnails, which are too small to copy) and a description. If they add to their basket, they can do so and when it comes to pay, they are required to sign up. There is a basic email verification process before their sign-up is complete. Then they make payment over Stripe and they are shown a page containing their download links and they have 24hrs to download the PDFs. They are also emailed the same links.
+
+User Flow:
+Users visit alphabetlearning.online and start by browsing available PDF resources, which are organized into clear categories. Each resource is displayed with a small thumbnail preview (insufficient for copying) and a brief description. When a user adds an item to their basket, they can continue shopping or proceed to checkout. At checkout, if the user is not signed up yet, they must create an account. The sign-up process includes basic email verification. Once registered and verified, the user completes the payment process via Stripe. Upon successful payment, a confirmation page displays the download links for the selected PDFs, and the same set of links is emailed to the user. The download links remain valid for 24 hours.
+
+**** Tech stack
+Language: Clojure with Clojurescript for front-end where necessary.
+Frameworks: no frameworks, but using compojure for routing, ring, component (for component structure and starting the database, web server, etc), hiccup for HTML and I am open to suggestions for other libraries, like auth. The clojure stack uses deps.edn, not leinengen.
+Dev environment: I write code in emacs.
+Database: sqlite during dev and postgresql in production.
+
+Tech Stack:
+The application will be built using Clojure, with ClojureScript employed on the front end as needed. Instead of using a full-fledged framework, the project will leverage libraries such as Compojure for routing, Ring for handling HTTP requests, Component for managing state (e.g., database, web server), and Hiccup for HTML generation. Dependency management is handled via deps.edn rather than Leiningen. For authentication and related functionality, additional libraries will be considered. The development environment is Emacs, with SQLite used during development and PostgreSQL in production.
+
+**** Fontend stack
+Basic CSS, HTML with some Clojurescript for interactive elements where required, but HTML is mainly generated on the server for this - I am coming from a Django background. Uses Tailwind CSS and again I am open to other libraries, but I want to keep it simple. Color palette should be bright, professional and attuned to the education market.
+
+Frontend Stack:
+The frontend will utilize basic HTML and CSS, with server-generated content as the primary approach—drawing on a Django-like workflow. Interactive elements will be implemented using ClojureScript where necessary. Tailwind CSS will be employed for styling, providing a streamlined development experience and a bright, professional color palette suited to the education market. The setup remains open to incorporating additional libraries if needed, while keeping the overall approach simple and efficient.
+
+**** Backend structure for Resources
+In terms of the models (for database planning - here are the basics):
+A PDF worksheet is called a Resource in this system. It has the following properties:
+- name (string)
+- stripe_product_id (string)
+- thumbnail_filenames (JSON)
+- resource_type (fk to ResourceType)
+- main_resource_category (fk to ResourceCategory)
+- subcategories (ManyToMany to ResourceSubcategory)
+- description (text)
+- card_description (text)
+- age_rage (string)
+- curriculum (string)
+- feature_slot (int)
+
+All models have a created_at and updated_at field.
+
+ResourceType
+- name (string)
+
+ResourceSubcategory
+- name (string)
+
+ResourceCategory
+- name (string)
+- colour_css_class (string)
+- badge_foreground_colour (string)
+
+PDFResource (to describe an uploaded PDF file associated with a Resource)
+- resource (fk to Resource)
+- file_name (string)
+- file_size (int)
+
+PDFPageSnapShot (a screenshot of the PDF, generated by the application, for preview)
+- name (string)
+- file_name (string)
+- pdf_file (fk to PDFResource)
+
+I will continue with the other models required after this one is processed.
+
+Backend Structure for Resources:
+
+The system defines several key models to plan the database structure around Resources (PDF worksheets) and their related entities. Note that all models include created_at and updated_at timestamp fields.
+
+1. Resource (PDF Worksheet)
+   • name (string)
+   • stripe_product_id (string)
+   • thumbnail_filenames (JSON)
+   • resource_type (foreign key to ResourceType)
+   • main_resource_category (foreign key to ResourceCategory)
+   • subcategories (many-to-many relationship with ResourceSubcategory)
+   • description (text)
+   • card_description (text)
+   • age_range (string)
+   • curriculum (string)
+   • feature_slot (integer)
+
+2. ResourceType
+   • name (string)
+
+3. ResourceSubcategory
+   • name (string)
+
+4. ResourceCategory
+   • name (string)
+   • colour_css_class (string)
+   • badge_foreground_colour (string)
+
+5. PDFResource (Uploaded PDF File)
+   • resource (foreign key to Resource)
+   • file_name (string)
+   • file_size (integer)
+
+6. PDFPageSnapShot (Preview Screenshot of the PDF)
+   • name (string)
+   • file_name (string)
+   • pdf_file (foreign key to PDFResource)
+
+*** That's fine for now - please compile all your responses in a single presentation suitable to be saved as an org-mode file
+**** Overview
+Alphabet Learning is a simple ecommerce web application focused on selling PDF worksheets for alphabet learning. Users can browse and purchase individual worksheets at low prices (e.g., £1, £1.50, etc.) via a shopping cart. Although publicly accessible, purchasing requires users to sign up for an account. New users receive a set number of free downloads upon registration. The platform integrates with Stripe for payment processing. Additionally, an administrative uploader (the content creator’s wife) can upload freshly created PDF worksheets through a dedicated form on the site.
+
+**** Target Audience
+The application is primarily designed for teachers, home-schoolers, carers, tutors, and parents. These users seek affordable, high-quality educational resources to support early learning in a structured and accessible format.
+
+**** User Flow
+Users visit alphabetlearning.online and browse available PDF resources organized into clearly defined categories. Each resource is presented with a small thumbnail preview (not suitable for copying) and a brief description. When a user adds an item to their basket, they may continue shopping or proceed to checkout. At checkout, if the user is not signed up, they must first create an account, including a basic email verification process. Once the registration is complete, the user completes payment via Stripe. Upon successful payment, a confirmation page displays the download links for the selected PDFs, and the same links are emailed to the user. The download links remain valid for 24 hours.
+
+**** Tech Stack
+- Language: Clojure, with ClojureScript utilized on the front end as needed.
+- Frameworks & Libraries: 
+  - Compojure for routing.
+  - Ring for handling HTTP requests.
+  - Component for managing application state (e.g., database, web server).
+  - Hiccup for HTML generation.
+  - Open to additional libraries for authentication and other functionalities.
+- Dependency Management: deps.edn (instead of Leiningen).
+- Development Environment: Emacs.
+- Database: SQLite during development and PostgreSQL in production.
+
+**** Frontend Stack
+- The frontend is built using basic HTML and CSS, with most content generated server-side (similar to a Django workflow).
+- Interactive elements, when required, will be implemented with ClojureScript.
+- Tailwind CSS is utilized for styling, ensuring a bright, professional color palette appropriate for the education market.
+- The approach remains simple, with openness to incorporating additional libraries if necessary.
+
+**** Backend Structure for Resources
+_(All models include created_at and updated_at timestamp fields.)_
+
+1. Resource (PDF Worksheet)
+   - name (string)
+   - stripe_product_id (string)
+   - thumbnail_filenames (JSON)
+   - resource_type (foreign key to ResourceType)
+   - main_resource_category (foreign key to ResourceCategory)
+   - subcategories (many-to-many relationship with ResourceSubcategory)
+   - description (text)
+   - card_description (text)
+   - age_range (string)
+   - curriculum (string)
+   - feature_slot (integer)
+
+2. ResourceType
+   - name (string)
+
+3. ResourceSubcategory
+   - name (string)
+
+4. ResourceCategory
+   - name (string)
+   - colour_css_class (string)
+   - badge_foreground_colour (string)
+
+5. PDFResource (Uploaded PDF File)
+   - resource (foreign key to Resource)
+   - file_name (string)
+   - file_size (integer)
+
+6. PDFPageSnapShot (Preview Screenshot of the PDF)
+   - name (string)
+   - file_name (string)
+   - pdf_file (foreign key to PDFResource)
+
+
