@@ -5,11 +5,11 @@
   (layout/application "Alphabet Learning - Home"
                      [:div.text-center
                       [:h1.text-4xl.font-bold.mb-4 "Welcome to Alphabet Learning!"]
-                      [:p.text-xl.mb-8 "Quality educational resources for early learners"]
+                      [:p.text-xl.mb-8 "High quality educational resources focused on simple concepts and the first steps in learning."]
                       [:div.flex.justify-center
-                       [:a.bg-blue-600.text-white.px-6.py-3.rounded-lg.hover:bg-blue-700.mr-4 
+                       [:a.bg-red-600.text-white.px-6.py-3.rounded-lg.hover:bg-red-700.mr-4 
                         {:href "/resources"} "Browse Resources"]
-                       [:a.bg-gray-200.px-6.py-3.rounded-lg.hover:bg-gray-300 
+                       [:a.bg-red-200.px-6.py-3.rounded-lg.hover:bg-red-300 
                         {:href "/signup"} "Sign Up"]]]                     
                      [:div.grid.grid-cols-1.md:grid-cols-3.gap-8.mt-16
                       [:div.bg-white.p-6.rounded-lg.shadow-md

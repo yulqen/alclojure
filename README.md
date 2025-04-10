@@ -33,9 +33,9 @@ cd alphabet-learning
 npm install
 ```
 
-3. Build CSS:
+3. Build CSS with live reloading:
 ```bash
-npm run build:css
+tailwindcss -i ./resources/css/input.css -o ./resources/public/css/output.css --watch
 ```
 
 ### Running the Application
@@ -43,11 +43,6 @@ npm run build:css
 Start the application server:
 ```bash
 clj -M:run
-```
-
-For development with CSS live-reloading:
-```bash
-npm run dev
 ```
 
 The application will be available at http://localhost:3000
