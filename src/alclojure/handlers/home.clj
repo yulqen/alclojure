@@ -2,6 +2,7 @@
   (:require [alclojure.views.home :as views]))
 
 (defn index [request]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (views/index-page)})
+  (let [user (get-in request [:session :user])]
+    {:status 200
+     :headers {"Content-Type" "text/html"}
+     :body (views/index-page user)}))

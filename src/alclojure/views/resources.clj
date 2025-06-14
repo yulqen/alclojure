@@ -25,7 +25,7 @@
                      [:div.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
                       (map resource-card resources)]))
 
-(defn show-page [resource]
+(defn show-resource-detail [resource]
   (layout/application (str "Alphabet Learning - " (:name resource))
                      [:div.bg-white.rounded-lg.shadow-md.p-6
                       [:div.flex.justify-between.items-start.mb-6

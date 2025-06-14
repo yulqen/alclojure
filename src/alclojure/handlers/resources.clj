@@ -17,7 +17,7 @@
     (if resource
       {:status 200
        :headers {"Content-Type" "text/html"}
-       :body (views/show-page resource)}
+       :body (views/show-resource-detail resource)}
       {:status 404
        :headers {"Content-Type" "text/html"}
        :body "Resource not found"})))

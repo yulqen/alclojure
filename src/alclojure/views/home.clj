@@ -1,8 +1,8 @@
 (ns alclojure.views.home
   (:require [alclojure.views.layout :as layout]))
 
-(defn index-page []
-  (layout/application "Alphabet Learning - Home"
+(defn index-page [user]
+  (layout/application user "Alphabet Learning - Home"
                      [:div.text-center
                       [:h1.text-4xl.font-bold.mb-4 "Welcome to Alphabet Learning!"]
                       [:p.text-xl.mb-8 "High quality educational resources focused on simple concepts and the first steps in learning."]
@@ -19,5 +19,5 @@
                        [:h2.text-xl.font-bold.mb-2 "For Parents"]
                        [:p "Support your child's learning journey with fun and engaging materials."]]
                       [:div.bg-white.p-6.rounded-lg.shadow-md
-                       [:h2.text-xl.font-bold.mb-2 "For Tutors"]
+                       [:h2.text-xl.font-bold.mb-2 "For Sparrows with scaly ears"]
                        [:p "Supplement your teaching with professionally designed worksheets."]]]))
